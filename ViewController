@@ -1,0 +1,21 @@
+class ViewController: UIViewController {
+  IBoutlet weak var button: UIButton!
+  
+  override viewDidLoad() {
+    super.viewDidLoad()
+    self.button.addTarget(self, action: #selector(didTapOnButton), for: .touchUpInside)
+  }
+  
+  @objc private func didTapOnButton() {
+    RestManager.shared.register(email: email, password: password, firstName: firstName, lastName: lastName, acceptsMarketing: acceptsMarketing) { result in
+        switch result{
+        case .success(let resposne):
+           if response.status == 200 {
+            // Regsitration completed
+           }
+        case .failure(let error):
+           // Show error
+        }
+     }
+  }
+}
