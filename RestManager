@@ -1,0 +1,23 @@
+import Moya
+
+class RestManager {
+    let provider = MoyaProvider<API>()
+    static let shared = RestManager()
+    
+      @discardableResult func register(email:String, password: String, firstName: String, lastName: String, acceptsMarketing: Bool, handler: ((Result<RegisterResponse, Error>) -> Void)?) {
+          self.provider.request(.Register(request: RegisterationRequest(value: RegisterationRequest.initInput(email: email, password: password, firstName: firstName, lastname: lastName, acceptsMarketing: acceptsMarketing)))) { result in
+                switch result{
+                case .success(let result):
+                    do{
+                        let product = try JSONDecoder().decode(RegistrationResponse.self, from: result.data)
+                        handler?(.success(product))
+                      }
+                      catch let error{
+                        handler?(.failure(error))
+                      }
+                case .failure(let error):
+                    handler?(.failure(error))
+                }
+           }
+      }
+}
