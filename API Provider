@@ -1,10 +1,10 @@
 import Moya
 
-enum SapAPI {
+enum API {
    case Register(request: RegisterationRequest)
 }
 
-extension SapAPI: TargetType {
+extension API: TargetType {
     var baseURL: URL {
         return URL(string: "https://xyz.com/")!
     }
