@@ -1,0 +1,17 @@
+extension Encodable {
+    var string: String {
+        guard let decodedData = try? JSONEncoder().encode(self) else { return "" }
+        return String(data: decodedData, encoding: .utf8) ?? ""
+    }
+    var urlEncodedData: Data {
+        var keyValueTupple = [(String, String)]()
+        guard let dictonary = self.dictionary else { return Data() }
+        for key in dictonary.keys {
+            let key = String(key)
+            if let value = dictonary[key] as? String {
+                keyValueTupple.append((key, value))
+            }
+        }
+        return QHTTPFormURLEncoded.urlEncoded(formDataSet: keyValueTupple).data(using: .utf8) ?? Data()
+    }
+}
