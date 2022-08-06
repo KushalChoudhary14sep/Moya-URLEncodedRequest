@@ -1,0 +1,38 @@
+import Moya
+
+enum SapAPI {
+   case Register(request: RegisterationRequest)
+}
+
+extension SapAPI: TargetType {
+    var baseURL: URL {
+        return URL(string: "https://xyz.com/")!
+    }
+    
+    var path: String {
+        switch self {
+        case .Register(request: _):
+            return "register"
+        }
+    }
+    
+    var method: Moya.Method {
+        return .post
+    }
+    
+    var sampleData: Data {
+        return Data()
+    }
+    
+    var task: Task {
+        switch self {
+        case .Register(request: let request):
+            return .requestCompositeData(bodyData: request.urlEncodedData, urlParameters: [:])
+        }
+    }
+    
+    var headers: [String : String]? {
+        return ["Content-Type": "application/x-www-form-urlencoded"]
+    }
+
+}
