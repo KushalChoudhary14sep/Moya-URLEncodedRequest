@@ -1,0 +1,38 @@
+// Codable Request
+struct RegisterationRequest: Codable {
+    struct initInput {
+        let email: String
+        let password: String
+        let firstName: String
+        let lastname: String
+        let acceptsMarketing: Bool
+        let regToken: String
+    }
+    let apiKey, userKey, secret, email: String
+    let password: String
+    let profile: String
+    let preferences: String
+    let regToken: String
+    let data : String
+
+    init (value: initInput ){
+        regToken = value.regToken
+        email = value.email
+        password = value.password
+        apiKey = "xyz"
+        userKey = "xyz"
+        secret = "xyz"
+        self.profile = Profile(firstName: value.firstName, lastName: value.lastname, locale: "en pt-br").string
+    }
+}
+
+// MARK: - Profile
+struct Profile: Codable {
+    let firstName, lastName: String?
+    let locale : String?
+    enum CodingKeys: String, CodingKey {
+        case firstName
+        case lastName
+        case locale
+    }
+}
